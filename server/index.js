@@ -1,8 +1,9 @@
 require('dotenv').config();
-const cors = require('cors')
-const express = require('express')
-const db = require('./config/database')
-const router = require('./routes/index')
+const cors = require('cors');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const db = require('./config/database');
+const router = require('./routes/index');
 
 const app = express();
 
@@ -11,12 +12,15 @@ try{
     console.log("Database server is running")
 }catch(error){
     console.log(error)
-}
+};
+
 
 app.use(cors({
     Credential:true,
     origin:'http://localhost:3000'
-}))
+}));
+
+app.use(cookieParser());
 //parse requests of content-type - application.json
 app.use(express.json()); 
 
@@ -24,7 +28,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 //Middleware
-
 app.use(router);
 
 app.listen(process.env.PORT,()=>{
